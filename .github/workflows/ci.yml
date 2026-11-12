@@ -1,0 +1,34 @@
+name: Web Project CI
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check-project:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get project files
+        uses: actions/checkout@v4
+
+      - name: Check required files
+        run: |
+          test -f index.html
+          test -f style.css
+          test -f script.js
+          echo "All project files found!"
+
+      - name: Check HTML connections
+        run: |
+          grep -q 'style.css' index.html
+          grep -q 'script.js' index.html
+          echo "HTML connections are correct!"
+
+      - name: Finish check
+        run: echo "Project check completed successfully!"
